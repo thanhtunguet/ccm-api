@@ -26,7 +26,7 @@ public class CardClass
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Bank Bank { get; set; } = null!;
+    public virtual Bank? Bank { get; set; } = null!;
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }

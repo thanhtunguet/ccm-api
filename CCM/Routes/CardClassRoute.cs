@@ -2,7 +2,7 @@ namespace CCM.Routes;
 
 public static class CardClassRoute
 {
-    public const string ApiPrefix = "api/cardclass";
+    public const string ApiPrefix = "api/card-class";
     public const string List = "list";
     public const string GetById = "{id}";
     public const string Create = "create";

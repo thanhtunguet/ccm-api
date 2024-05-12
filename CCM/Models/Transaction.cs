@@ -25,7 +25,7 @@ public class Transaction
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Card Card { get; set; } = null!;
+    public virtual Card? Card { get; set; } = null!;
 
     public virtual TransactionStatus? Status { get; set; }
 
