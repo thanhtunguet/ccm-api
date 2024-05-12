@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: CCM
-          file: Dockerfile
+          file: CCM/Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/ccm-api:latest
