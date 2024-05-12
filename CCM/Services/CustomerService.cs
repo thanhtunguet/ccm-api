@@ -1,47 +1,37 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CCM.Models;
 using CCM.Repositories;
 
-namespace CCM.Services
+namespace CCM.Services;
+
+public class CustomerService(CustomerRepository repository)
 {
-    public class CustomerService
+    public Task<List<Customer>> ListAllCustomersAsync()
     {
-        private readonly CustomerRepository _repository;
+        return repository.ListAllAsync();
+    }
 
-        public CustomerService(CustomerRepository repository)
-        {
-            _repository = repository;
-        }
+    public Task<Customer> GetCustomerByIdAsync(ulong id)
+    {
+        return repository.GetByIdAsync(id);
+    }
 
-        public Task<List<Customer>> ListAllCustomersAsync()
-        {
-            return _repository.ListAllAsync();
-        }
+    public Task CreateCustomerAsync(Customer customer)
+    {
+        return repository.CreateAsync(customer);
+    }
 
-        public Task<Customer> GetCustomerByIdAsync(ulong id)
-        {
-            return _repository.GetByIdAsync(id);
-        }
+    public Task UpdateCustomerAsync(Customer customer)
+    {
+        return repository.UpdateAsync(customer);
+    }
 
-        public Task CreateCustomerAsync(Customer customer)
-        {
-            return _repository.CreateAsync(customer);
-        }
+    public Task DeleteCustomerAsync(ulong id)
+    {
+        return repository.DeleteAsync(id);
+    }
 
-        public Task UpdateCustomerAsync(Customer customer)
-        {
-            return _repository.UpdateAsync(customer);
-        }
-
-        public Task DeleteCustomerAsync(ulong id)
-        {
-            return _repository.DeleteAsync(id);
-        }
-
-        public Task<int> CountCustomersAsync()
-        {
-            return _repository.CountAsync();
-        }
+    public Task<int> CountCustomersAsync()
+    {
+        return repository.CountAsync();
     }
 }

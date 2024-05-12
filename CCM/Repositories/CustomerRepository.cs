@@ -1,52 +1,41 @@
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CCM.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace CCM.Repositories
+namespace CCM.Repositories;
+
+public class CustomerRepository(CcmContext context)
 {
-    public class CustomerRepository
+    public async Task<List<Customer>> ListAllAsync()
     {
-        private readonly CcmContext _context;
+        return await context.Customers.ToListAsync();
+    }
 
-        public CustomerRepository(CcmContext context)
-        {
-            _context = context;
-        }
+    public async Task<Customer> GetByIdAsync(ulong id)
+    {
+        return await context.Customers.FindAsync(id);
+    }
 
-        public async Task<List<Customer>> ListAllAsync()
-        {
-            return await _context.Customers.ToListAsync();
-        }
+    public async Task CreateAsync(Customer customer)
+    {
+        context.Customers.Add(customer);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<Customer> GetByIdAsync(ulong id)
-        {
-            return await _context.Customers.FindAsync(id);
-        }
+    public async Task UpdateAsync(Customer customer)
+    {
+        context.Entry(customer).State = EntityState.Modified;
+        await context.SaveChangesAsync();
+    }
 
-        public async Task CreateAsync(Customer customer)
-        {
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-        }
+    public async Task DeleteAsync(ulong id)
+    {
+        var customer = await context.Customers.FindAsync(id);
+        context.Customers.Remove(customer);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task UpdateAsync(Customer customer)
-        {
-            _context.Entry(customer).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(ulong id)
-        {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> CountAsync()
-        {
-            return await _context.Customers.CountAsync();
-        }
+    public async Task<int> CountAsync()
+    {
+        return await context.Customers.CountAsync();
     }
 }

@@ -1,48 +1,37 @@
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CCM.Models;
 using CCM.Repositories;
 
-namespace CCM.Services
+namespace CCM.Services;
+
+public class BankService(BankRepository repository)
 {
-    public class BankService
+    public Task<List<Bank>> ListAllBanksAsync()
     {
-        private readonly BankRepository _repository;
+        return repository.ListAllAsync(true);
+    }
 
-        public BankService(BankRepository repository)
-        {
-            _repository = repository;
-        }
+    public Task<int> CountBanksAsync()
+    {
+        return repository.CountAsync();
+    }
 
-        public Task<List<Bank>> ListAllBanksAsync()
-        {
-            return _repository.ListAllAsync(includeCardClasses: true);
-        }
+    public Task<Bank> GetBankByIdAsync(ulong id)
+    {
+        return repository.GetByIdAsync(id, true);
+    }
 
-        public Task<int> CountBanksAsync()
-        {
-            return _repository.CountAsync();
-        }
+    public Task CreateBankAsync(Bank bank)
+    {
+        return repository.CreateAsync(bank);
+    }
 
-        public Task<Bank> GetBankByIdAsync(ulong id)
-        {
-            return _repository.GetByIdAsync(id, includeCardClasses: true);
-        }
+    public Task UpdateBankAsync(Bank bank)
+    {
+        return repository.UpdateAsync(bank);
+    }
 
-        public Task CreateBankAsync(Bank bank)
-        {
-            return _repository.CreateAsync(bank);
-        }
-
-        public Task UpdateBankAsync(Bank bank)
-        {
-            return _repository.UpdateAsync(bank);
-        }
-
-        public Task DeleteBankAsync(ulong id)
-        {
-            return _repository.DeleteAsync(id);
-        }
+    public Task DeleteBankAsync(ulong id)
+    {
+        return repository.DeleteAsync(id);
     }
 }

@@ -1,65 +1,45 @@
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CCM.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace CCM.Repositories
+namespace CCM.Repositories;
+
+public class BankRepository(CcmContext context)
 {
-    public class BankRepository
+    public async Task<List<Bank>> ListAllAsync(bool includeCardClasses = false)
     {
-        private readonly CcmContext _context;
+        if (includeCardClasses)
+            return await context.Banks.Include(b => b.CardClasses).ToListAsync();
+        return await context.Banks.ToListAsync();
+    }
 
-        public BankRepository(CcmContext context)
-        {
-            _context = context;
-        }
+    public async Task<Bank> GetByIdAsync(ulong id, bool includeCardClasses = false)
+    {
+        if (includeCardClasses)
+            return await context.Banks.Include(b => b.CardClasses).FirstOrDefaultAsync(b => b.Id == id);
+        return await context.Banks.FindAsync(id);
+    }
 
-        public async Task<List<Bank>> ListAllAsync(bool includeCardClasses = false)
-        {
-            if (includeCardClasses)
-            {
-                return await _context.Banks.Include(b => b.CardClasses).ToListAsync();
-            }
-            else
-            {
-                return await _context.Banks.ToListAsync();
-            }
-        }
+    public async Task<int> CountAsync()
+    {
+        return await context.Banks.CountAsync();
+    }
 
-        public async Task<Bank> GetByIdAsync(ulong id, bool includeCardClasses = false)
-        {
-            if (includeCardClasses)
-            {
-                return await _context.Banks.Include(b => b.CardClasses).FirstOrDefaultAsync(b => b.Id == id);
-            }
-            else
-            {
-                return await _context.Banks.FindAsync(id);
-            }
-        }
+    public async Task CreateAsync(Bank bank)
+    {
+        context.Banks.Add(bank);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<int> CountAsync()
-        {
-            return await _context.Banks.CountAsync();
-        }
+    public async Task UpdateAsync(Bank bank)
+    {
+        context.Entry(bank).State = EntityState.Modified;
+        await context.SaveChangesAsync();
+    }
 
-        public async Task CreateAsync(Bank bank)
-        {
-            _context.Banks.Add(bank);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Bank bank)
-        {
-            _context.Entry(bank).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(ulong id)
-        {
-            var bank = await _context.Banks.FindAsync(id);
-            _context.Banks.Remove(bank);
-            await _context.SaveChangesAsync();
-        }
+    public async Task DeleteAsync(ulong id)
+    {
+        var bank = await context.Banks.FindAsync(id);
+        context.Banks.Remove(bank);
+        await context.SaveChangesAsync();
     }
 }
