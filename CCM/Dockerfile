@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
 # Copy the published output from the build stage to the runtime image
-COPY --from=build ./publish ./
+COPY ./publish ./
 
 # Expose the port the application will run on
 EXPOSE 80
