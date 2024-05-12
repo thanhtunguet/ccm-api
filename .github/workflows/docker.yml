@@ -51,4 +51,4 @@ jobs:
           file: CCM/Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ccm-api:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ccm-apis:latest
