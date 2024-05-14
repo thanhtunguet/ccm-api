@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace CCM.Models;
 
-namespace CCM.Models;
-
-public partial class CardClass
+public class CardClass
 {
     public ulong Id { get; set; }
 
@@ -29,7 +26,7 @@ public partial class CardClass
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Bank Bank { get; set; } = null!;
+    public virtual Bank? Bank { get; set; } = null!;
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }

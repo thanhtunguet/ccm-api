@@ -1,47 +1,37 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CCM.Models;
 using CCM.Repositories;
 
-namespace CCM.Services
+namespace CCM.Services;
+
+public class CardService(CardRepository repository)
 {
-    public class CardService
+    public Task<List<Card>> ListAllCardsAsync()
     {
-        private readonly CardRepository _repository;
+        return repository.ListAllAsync();
+    }
 
-        public CardService(CardRepository repository)
-        {
-            _repository = repository;
-        }
+    public Task<Card> GetCardByIdAsync(ulong id)
+    {
+        return repository.GetByIdAsync(id);
+    }
 
-        public Task<List<Card>> ListAllCardsAsync()
-        {
-            return _repository.ListAllAsync();
-        }
+    public Task CreateCardAsync(Card card)
+    {
+        return repository.CreateAsync(card);
+    }
 
-        public Task<Card> GetCardByIdAsync(ulong id)
-        {
-            return _repository.GetByIdAsync(id);
-        }
+    public Task UpdateCardAsync(Card card)
+    {
+        return repository.UpdateAsync(card);
+    }
 
-        public Task CreateCardAsync(Card card)
-        {
-            return _repository.CreateAsync(card);
-        }
+    public Task DeleteCardAsync(ulong id)
+    {
+        return repository.DeleteAsync(id);
+    }
 
-        public Task UpdateCardAsync(Card card)
-        {
-            return _repository.UpdateAsync(card);
-        }
-
-        public Task DeleteCardAsync(ulong id)
-        {
-            return _repository.DeleteAsync(id);
-        }
-
-        public Task<int> CountCardsAsync()
-        {
-            return _repository.CountAsync();
-        }
+    public Task<int> CountCardsAsync()
+    {
+        return repository.CountAsync();
     }
 }

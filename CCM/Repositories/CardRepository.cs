@@ -1,52 +1,41 @@
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CCM.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace CCM.Repositories
+namespace CCM.Repositories;
+
+public class CardRepository(CcmContext context)
 {
-    public class CardRepository
+    public async Task<List<Card>> ListAllAsync()
     {
-        private readonly CcmContext _context;
+        return await context.Cards.ToListAsync();
+    }
 
-        public CardRepository(CcmContext context)
-        {
-            _context = context;
-        }
+    public async Task<Card> GetByIdAsync(ulong id)
+    {
+        return await context.Cards.FindAsync(id);
+    }
 
-        public async Task<List<Card>> ListAllAsync()
-        {
-            return await _context.Cards.ToListAsync();
-        }
+    public async Task CreateAsync(Card card)
+    {
+        context.Cards.Add(card);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<Card> GetByIdAsync(ulong id)
-        {
-            return await _context.Cards.FindAsync(id);
-        }
+    public async Task UpdateAsync(Card card)
+    {
+        context.Entry(card).State = EntityState.Modified;
+        await context.SaveChangesAsync();
+    }
 
-        public async Task CreateAsync(Card card)
-        {
-            _context.Cards.Add(card);
-            await _context.SaveChangesAsync();
-        }
+    public async Task DeleteAsync(ulong id)
+    {
+        var card = await context.Cards.FindAsync(id);
+        context.Cards.Remove(card);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task UpdateAsync(Card card)
-        {
-            _context.Entry(card).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(ulong id)
-        {
-            var card = await _context.Cards.FindAsync(id);
-            _context.Cards.Remove(card);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> CountAsync()
-        {
-            return await _context.Cards.CountAsync();
-        }
+    public async Task<int> CountAsync()
+    {
+        return await context.Cards.CountAsync();
     }
 }

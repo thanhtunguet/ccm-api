@@ -1,6 +1,6 @@
 namespace CCM.Routes;
 
-public class BankRoute
+public static class BankRoute
 {
     public const string ApiPrefix = "api/bank";
     public const string List = "list";

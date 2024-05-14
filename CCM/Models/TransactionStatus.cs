@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace CCM.Models;
 
-namespace CCM.Models;
-
-public partial class TransactionStatus
+public class TransactionStatus
 {
     public const int Pending = 1;
 

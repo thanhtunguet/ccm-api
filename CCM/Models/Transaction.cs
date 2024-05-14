@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace CCM.Models;
 
-namespace CCM.Models;
-
-public partial class Transaction
+public class Transaction
 {
     public ulong Id { get; set; }
 
@@ -14,7 +11,7 @@ public partial class Transaction
     public ulong CardId { get; set; }
 
     /// <summary>
-    /// (TID)
+    ///     (TID)
     /// </summary>
     public string Code { get; set; } = null!;
 
@@ -28,7 +25,7 @@ public partial class Transaction
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Card Card { get; set; } = null!;
+    public virtual Card? Card { get; set; } = null!;
 
     public virtual TransactionStatus? Status { get; set; }
 

@@ -1,47 +1,37 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CCM.Repositories;
 using CCM.Models;
+using CCM.Repositories;
 
-namespace CCM.Services
+namespace CCM.Services;
+
+public class TransactionService(TransactionRepository repository)
 {
-    public class TransactionService
+    public Task<List<Transaction>> ListAllTransactionsAsync()
     {
-        private readonly TransactionRepository _repository;
+        return repository.ListAllAsync();
+    }
 
-        public TransactionService(TransactionRepository repository)
-        {
-            _repository = repository;
-        }
+    public Task<Transaction> GetTransactionByIdAsync(ulong id)
+    {
+        return repository.GetByIdAsync(id);
+    }
 
-        public Task<List<Transaction>> ListAllTransactionsAsync()
-        {
-            return _repository.ListAllAsync();
-        }
+    public Task CreateTransactionAsync(Transaction transaction)
+    {
+        return repository.CreateAsync(transaction);
+    }
 
-        public Task<Transaction> GetTransactionByIdAsync(ulong id)
-        {
-            return _repository.GetByIdAsync(id);
-        }
+    public Task UpdateTransactionAsync(Transaction transaction)
+    {
+        return repository.UpdateAsync(transaction);
+    }
 
-        public Task CreateTransactionAsync(Transaction transaction)
-        {
-            return _repository.CreateAsync(transaction);
-        }
+    public Task DeleteTransactionAsync(ulong id)
+    {
+        return repository.DeleteAsync(id);
+    }
 
-        public Task UpdateTransactionAsync(Transaction transaction)
-        {
-            return _repository.UpdateAsync(transaction);
-        }
-
-        public Task DeleteTransactionAsync(ulong id)
-        {
-            return _repository.DeleteAsync(id);
-        }
-
-        public Task<int> CountTransactionsAsync()
-        {
-            return _repository.CountAsync();
-        }
+    public Task<int> CountTransactionsAsync()
+    {
+        return repository.CountAsync();
     }
 }

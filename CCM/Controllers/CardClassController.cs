@@ -1,58 +1,48 @@
+using CCM.Models;
 using CCM.Routes;
 using CCM.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CCM.Models;
 
-namespace CCM.Controllers
+namespace CCM.Controllers;
+
+[ApiController]
+[Route(CardClassRoute.ApiPrefix)]
+public class CardClassController(CardClassService service) : ControllerBase
 {
-    [ApiController]
-    [Route(CardClassRoute.ApiPrefix)]
-    public class CardClassController : ControllerBase
+    [HttpPost(CardClassRoute.List)]
+    public Task<List<CardClass>> GetAllCardClasses()
     {
-        private readonly CardClassService _service;
+        return service.ListAllCardClassesAsync();
+    }
 
-        public CardClassController(CardClassService service)
-        {
-            _service = service;
-        }
+    [HttpPost(CardClassRoute.GetById)]
+    public Task<CardClass> GetCardClassById(ulong id)
+    {
+        return service.GetCardClassByIdAsync(id);
+    }
 
-        [HttpPost(CardClassRoute.List)]
-        public Task<List<CardClass>> GetAllCardClasses()
-        {
-            return _service.ListAllCardClassesAsync();
-        }
+    [HttpPost(CardClassRoute.Create)]
+    public Task CreateCardClass(CardClass cardClass)
+    {
+        return service.CreateCardClassAsync(cardClass);
+    }
 
-        [HttpPost(CardClassRoute.GetById)]
-        public Task<CardClass> GetCardClassById(ulong id)
-        {
-            return _service.GetCardClassByIdAsync(id);
-        }
+    [HttpPost(CardClassRoute.Update)]
+    public Task UpdateCardClass(ulong id, CardClass cardClass)
+    {
+        cardClass.Id = id; // Ensure the provided id matches the entity id
+        return service.UpdateCardClassAsync(cardClass);
+    }
 
-        [HttpPost(CardClassRoute.Create)]
-        public Task CreateCardClass(CardClass cardClass)
-        {
-            return _service.CreateCardClassAsync(cardClass);
-        }
+    [HttpPost(CardClassRoute.Delete)]
+    public Task DeleteCardClass(ulong id)
+    {
+        return service.DeleteCardClassAsync(id);
+    }
 
-        [HttpPost(CardClassRoute.Update)]
-        public Task UpdateCardClass(ulong id, CardClass cardClass)
-        {
-            cardClass.Id = id; // Ensure the provided id matches the entity id
-            return _service.UpdateCardClassAsync(cardClass);
-        }
-
-        [HttpPost(CardClassRoute.Delete)]
-        public Task DeleteCardClass(ulong id)
-        {
-            return _service.DeleteCardClassAsync(id);
-        }
-
-        [HttpPost(CardClassRoute.Count)]
-        public Task<int> GetCardClassCount()
-        {
-            return _service.CountCardClassesAsync();
-        }
+    [HttpPost(CardClassRoute.Count)]
+    public Task<int> GetCardClassCount()
+    {
+        return service.CountCardClassesAsync();
     }
 }

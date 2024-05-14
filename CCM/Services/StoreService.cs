@@ -1,47 +1,37 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CCM.Models;
 using CCM.Repositories;
 
-namespace CCM.Services
+namespace CCM.Services;
+
+public class StoreService(StoreRepository repository)
 {
-    public class StoreService
+    public Task<List<Store>> ListAllStoresAsync()
     {
-        private readonly StoreRepository _repository;
+        return repository.ListAllAsync();
+    }
 
-        public StoreService(StoreRepository repository)
-        {
-            _repository = repository;
-        }
+    public Task<Store> GetStoreByIdAsync(ulong id)
+    {
+        return repository.GetByIdAsync(id);
+    }
 
-        public Task<List<Store>> ListAllStoresAsync()
-        {
-            return _repository.ListAllAsync();
-        }
+    public Task CreateStoreAsync(Store store)
+    {
+        return repository.CreateAsync(store);
+    }
 
-        public Task<Store> GetStoreByIdAsync(ulong id)
-        {
-            return _repository.GetByIdAsync(id);
-        }
+    public Task UpdateStoreAsync(Store store)
+    {
+        return repository.UpdateAsync(store);
+    }
 
-        public Task CreateStoreAsync(Store store)
-        {
-            return _repository.CreateAsync(store);
-        }
+    public Task DeleteStoreAsync(ulong id)
+    {
+        return repository.DeleteAsync(id);
+    }
 
-        public Task UpdateStoreAsync(Store store)
-        {
-            return _repository.UpdateAsync(store);
-        }
-
-        public Task DeleteStoreAsync(ulong id)
-        {
-            return _repository.DeleteAsync(id);
-        }
-
-        public Task<int> CountStoresAsync()
-        {
-            return _repository.CountAsync();
-        }
+    public Task<int> CountStoresAsync()
+    {
+        return repository.CountAsync();
     }
 }

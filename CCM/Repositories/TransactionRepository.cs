@@ -1,52 +1,41 @@
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CCM.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace CCM.Repositories
+namespace CCM.Repositories;
+
+public class TransactionRepository(CcmContext context)
 {
-    public class TransactionRepository
+    public async Task<List<Transaction>> ListAllAsync()
     {
-        private readonly CcmContext _context;
+        return await context.Transactions.ToListAsync();
+    }
 
-        public TransactionRepository(CcmContext context)
-        {
-            _context = context;
-        }
+    public async Task<Transaction> GetByIdAsync(ulong id)
+    {
+        return await context.Transactions.FindAsync(id);
+    }
 
-        public async Task<List<Transaction>> ListAllAsync()
-        {
-            return await _context.Transactions.ToListAsync();
-        }
+    public async Task CreateAsync(Transaction transaction)
+    {
+        context.Transactions.Add(transaction);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<Transaction> GetByIdAsync(ulong id)
-        {
-            return await _context.Transactions.FindAsync(id);
-        }
+    public async Task UpdateAsync(Transaction transaction)
+    {
+        context.Entry(transaction).State = EntityState.Modified;
+        await context.SaveChangesAsync();
+    }
 
-        public async Task CreateAsync(Transaction transaction)
-        {
-            _context.Transactions.Add(transaction);
-            await _context.SaveChangesAsync();
-        }
+    public async Task DeleteAsync(ulong id)
+    {
+        var transaction = await context.Transactions.FindAsync(id);
+        context.Transactions.Remove(transaction);
+        await context.SaveChangesAsync();
+    }
 
-        public async Task UpdateAsync(Transaction transaction)
-        {
-            _context.Entry(transaction).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(ulong id)
-        {
-            var transaction = await _context.Transactions.FindAsync(id);
-            _context.Transactions.Remove(transaction);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> CountAsync()
-        {
-            return await _context.Transactions.CountAsync();
-        }
+    public async Task<int> CountAsync()
+    {
+        return await context.Transactions.CountAsync();
     }
 }

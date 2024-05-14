@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace CCM.Models;
 
-namespace CCM.Models;
-
-public partial class Card
+public class Card
 {
     public ulong Id { get; set; }
 
