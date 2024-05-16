@@ -7,12 +7,12 @@ public class CardClassRepository(CcmContext context)
 {
     public async Task<List<CardClass>> ListAllAsync()
     {
-        return await context.CardClasses.ToListAsync();
+        return await context.CardClasses.Include((cardClass) => cardClass.Bank).ToListAsync();
     }
 
     public async Task<CardClass> GetByIdAsync(ulong id)
     {
-        return await context.CardClasses.FindAsync(id);
+        return await context.CardClasses.Include((cardClass) => cardClass.Bank).FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task CreateAsync(CardClass cardClass)

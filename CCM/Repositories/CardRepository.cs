@@ -7,12 +7,20 @@ public class CardRepository(CcmContext context)
 {
     public async Task<List<Card>> ListAllAsync()
     {
-        return await context.Cards.ToListAsync();
+        return await context.Cards
+            .Include((card) => card.Customer)
+            .Include((card) => card.CardClass)
+            .Include((card) => card.Transactions)
+            .ToListAsync();
     }
 
     public async Task<Card> GetByIdAsync(ulong id)
     {
-        return await context.Cards.FindAsync(id);
+        return await context.Cards
+            .Include((card) => card.Customer)
+            .Include((card) => card.CardClass)
+            .Include((card) => card.Transactions)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task CreateAsync(Card card)

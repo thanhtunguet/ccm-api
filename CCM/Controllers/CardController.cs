@@ -7,49 +7,42 @@ namespace CCM.Controllers;
 
 [ApiController]
 [Route(CardRoute.ApiPrefix)]
-public class CardController : ControllerBase
+public class CardController(CardService service) : ControllerBase
 {
-    private readonly CardService _service;
-
-    public CardController(CardService service)
-    {
-        _service = service;
-    }
-
     [HttpPost(CardRoute.List)]
     public Task<List<Card>> GetAllCards()
     {
-        return _service.ListAllCardsAsync();
+        return service.ListAllCardsAsync();
     }
 
     [HttpPost(CardRoute.GetById)]
     public Task<Card> GetCardById(ulong id)
     {
-        return _service.GetCardByIdAsync(id);
+        return service.GetCardByIdAsync(id);
     }
 
     [HttpPost(CardRoute.Create)]
     public Task CreateCard(Card card)
     {
-        return _service.CreateCardAsync(card);
+        return service.CreateCardAsync(card);
     }
 
     [HttpPost(CardRoute.Update)]
     public Task UpdateCard(ulong id, Card card)
     {
         card.Id = id; // Ensure the provided id matches the entity id
-        return _service.UpdateCardAsync(card);
+        return service.UpdateCardAsync(card);
     }
 
     [HttpPost(CardRoute.Delete)]
     public Task DeleteCard(ulong id)
     {
-        return _service.DeleteCardAsync(id);
+        return service.DeleteCardAsync(id);
     }
 
     [HttpPost(CardRoute.Count)]
     public Task<int> GetCardCount()
     {
-        return _service.CountCardsAsync();
+        return service.CountCardsAsync();
     }
 }

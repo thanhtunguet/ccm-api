@@ -7,12 +7,12 @@ public class CustomerRepository(CcmContext context)
 {
     public async Task<List<Customer>> ListAllAsync()
     {
-        return await context.Customers.ToListAsync();
+        return await context.Customers.Include((customer) => customer.Cards).ToListAsync();
     }
 
     public async Task<Customer> GetByIdAsync(ulong id)
     {
-        return await context.Customers.FindAsync(id);
+        return await context.Customers.Include((customer) => customer.Cards).FirstOrDefaultAsync((customer) => customer.Id == id);
     }
 
     public async Task CreateAsync(Customer customer)
