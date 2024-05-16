@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace CCM.Models;
 
@@ -28,7 +31,13 @@ public partial class CcmContext : DbContext
     public virtual DbSet<TransactionStatus> TransactionStatuses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=192.168.97.2;database=CCM;uid=root", ServerVersion.Parse("10.11.6-mariadb"));
+    {
+        string? DbHost = Environment.GetEnvironmentVariable("DB_HOST");
+        string? DbUser = Environment.GetEnvironmentVariable("DB_USER");
+        string? DbName = Environment.GetEnvironmentVariable("DB_NAME");
+        optionsBuilder.UseMySql($"server={DbHost};database={DbName};uid={DbUser}",
+            Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.11.6-mariadb"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
