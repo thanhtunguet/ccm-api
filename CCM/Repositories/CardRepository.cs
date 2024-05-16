@@ -8,18 +8,18 @@ public class CardRepository(CcmContext context)
     public async Task<List<Card>> ListAllAsync()
     {
         return await context.Cards
-            .Include((card) => card.Customer)
-            .Include((card) => card.CardClass)
-            .Include((card) => card.Transactions)
+            .Include(card => card.Customer)
+            .Include(card => card.CardClass)
+            .Include(card => card.Transactions)
             .ToListAsync();
     }
 
     public async Task<Card> GetByIdAsync(ulong id)
     {
         return await context.Cards
-            .Include((card) => card.Customer)
-            .Include((card) => card.CardClass)
-            .Include((card) => card.Transactions)
+            .Include(card => card.Customer)
+            .Include(card => card.CardClass)
+            .Include(card => card.Transactions)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
@@ -45,5 +45,26 @@ public class CardRepository(CcmContext context)
     public async Task<int> CountAsync()
     {
         return await context.Cards.CountAsync();
+    }
+
+    public async Task<long> UpdateCardClassIds()
+    {
+        var cardClasses = await context.CardClasses.ToListAsync();
+        var changedCards = 0;
+        foreach (var card in context.Cards)
+        {
+            var cardNumberPrefix = card.Number.Substring(0, 6);
+
+            var matchingCardClass = cardClasses.FirstOrDefault(c => c.Bin == cardNumberPrefix);
+
+            if (matchingCardClass != null)
+            {
+                card.CardClassId = matchingCardClass.Id;
+                changedCards++;
+            }
+        }
+
+        await context.SaveChangesAsync();
+        return changedCards;
     }
 }

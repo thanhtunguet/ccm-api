@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace CCM.Models;
 
@@ -32,11 +29,11 @@ public partial class CcmContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string? DbHost = Environment.GetEnvironmentVariable("DB_HOST");
-        string? DbUser = Environment.GetEnvironmentVariable("DB_USER");
-        string? DbName = Environment.GetEnvironmentVariable("DB_NAME");
+        var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
+        var DbUser = Environment.GetEnvironmentVariable("DB_USER");
+        var DbName = Environment.GetEnvironmentVariable("DB_NAME");
         optionsBuilder.UseMySql($"server={DbHost};database={DbName};uid={DbUser}",
-            Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.11.6-mariadb"));
+            ServerVersion.Parse("10.11.6-mariadb"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

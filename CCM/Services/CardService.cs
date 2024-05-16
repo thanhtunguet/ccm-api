@@ -34,4 +34,9 @@ public class CardService(CardRepository repository)
     {
         return repository.CountAsync();
     }
+
+    public Task<long> SyncBin()
+    {
+        return repository.UpdateCardClassIds();
+    }
 }

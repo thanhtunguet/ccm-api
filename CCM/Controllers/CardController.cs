@@ -45,4 +45,10 @@ public class CardController(CardService service) : ControllerBase
     {
         return service.CountCardsAsync();
     }
+
+    [HttpPost("sync-bin")]
+    public Task<long> SyncBin()
+    {
+        return service.SyncBin();
+    }
 }
