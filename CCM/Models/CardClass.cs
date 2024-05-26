@@ -4,7 +4,7 @@ public class CardClass
 {
     public ulong Id { get; set; }
 
-    public ulong BankId { get; set; }
+    public ulong? BankId { get; set; }
 
     public string? Code { get; set; }
 
