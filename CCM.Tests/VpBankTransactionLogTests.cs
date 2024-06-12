@@ -21,7 +21,7 @@ namespace CCM.Tests
             Assert.That(transactionLog.TID, Is.EqualTo("R1430747"));
             Assert.That(transactionLog.CreatedDate, Is.EqualTo(new DateTime(2024, 04, 30, 07, 52, 28)));
             Assert.That(transactionLog.CardNumber, Is.EqualTo("524394...1742"));
-            Assert.That(transactionLog.TransactionCode, Is.EqualTo("886172"));
+            Assert.That(transactionLog.TransactionCode, Is.EqualTo("412189474136"));
             Assert.That(transactionLog.Amount, Is.EqualTo(32596000m));
             Assert.That(transactionLog.Fee, Is.EqualTo(391152m));
             Assert.That(transactionLog.VAT, Is.EqualTo(39115m));
@@ -60,7 +60,7 @@ namespace CCM.Tests
             Assert.That(transactionLog.TID, Is.EqualTo("R1430866"));
             Assert.That(transactionLog.CreatedDate, Is.EqualTo(new DateTime(2024, 05, 01, 16, 21, 00)));
             Assert.That(transactionLog.CardNumber, Is.EqualTo("428695...2108"));
-            Assert.That(transactionLog.TransactionCode, Is.EqualTo("191657"));
+            Assert.That(transactionLog.TransactionCode, Is.EqualTo("412289654189"));
             Assert.That(transactionLog.Amount, Is.EqualTo(29004000m));
             Assert.That(transactionLog.Fee, Is.EqualTo(348048m));
             Assert.That(transactionLog.VAT, Is.EqualTo(34805m));
@@ -71,7 +71,7 @@ namespace CCM.Tests
             "TID R1430747 NGAY GD 24/04/30 07.52.28 SO THE 524394...1742 CODE 886172 SO TIEN 32596000 VND (1) PHI 391152VND VAT 39115VND TG 1 RRN 412189474136",
             "R1430747",
             "524394...1742",
-            "886172",
+            "412189474136",
             32596000,
             391152,
             39115
@@ -80,7 +80,7 @@ namespace CCM.Tests
             "TID A1234567 NGAY GD 21/05/15 12.30.45 SO THE 123456...7890 CODE 123456 SO TIEN 100000 VND (1) PHI 1000VND VAT 100VND TG 1 RRN 987654321000",
             "A1234567",
             "123456...7890",
-            "123456",
+            "987654321000",
             100000,
             1000,
             100
@@ -89,7 +89,7 @@ namespace CCM.Tests
             "\"TT MC CHO TID R1430866 NGAY GD 24/05/02 09.59.22 SO THE\n516101...4062 CODE 973312 SO TIEN\n27499000 VND (1) PHI 329988VND VAT 32999VND TG 1 RRN 412389754425\"\t\t\t\t\t\t\t",
             "R1430866",
             "516101...4062",
-            "973312",
+            "412389754425",
             27499000,
             329988,
             32999
