@@ -20,7 +20,7 @@ public class VPBankTransactionLog
         // Regular expressions to extract the fields from the log
         var tidRegex = new Regex(@"TID\s+(\w+)");
         var dateRegex = new Regex(@"NGAY GD\s+(\d{2}/\d{2}/\d{2})\s+(\d{2}.\d{2}.\d{2})");
-        var cardNumberRegex = new Regex(@"SO THE\s+(\d+)");
+        var cardNumberRegex = new Regex(@"SO THE\s+(\d+(?:\.\.\.\d+)?)");
         var transactionCodeRegex = new Regex(@"CODE\s+(\d+)");
         var amountRegex = new Regex(@"SO TIEN\s+(\d+)\s+VND");
         var feeRegex = new Regex(@"PHI\s+(\d+)");
