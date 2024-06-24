@@ -32,8 +32,15 @@ public partial class CcmContext : DbContext
         var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
         var DbUser = Environment.GetEnvironmentVariable("DB_USER");
         var DbName = Environment.GetEnvironmentVariable("DB_NAME");
-        optionsBuilder.UseMySql($"server={DbHost};database={DbName};uid={DbUser}",
-            ServerVersion.Parse("10.11.6-mariadb"));
+        optionsBuilder.UseMySql(
+            $"server={DbHost};database={DbName};uid={DbUser}",
+            ServerVersion.Parse("10.11.6-mariadb"),
+            options => options.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null
+            )
+        );
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
