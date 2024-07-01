@@ -1,13 +1,11 @@
-namespace CCM.Routes;
+namespace CCM.Core;
 
-public static class TransactionRoute
+public static class GenericRoute
 {
-    public const string ApiPrefix = "api/transaction";
     public const string List = "list";
     public const string GetById = "{id}";
     public const string Create = "create";
     public const string Update = "update/{id}";
     public const string Delete = "delete/{id}";
     public const string Count = "count";
-    public const string UpdateVpBankLog = "update-vpbank-logs";
 }

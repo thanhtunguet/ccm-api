@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace CCM.Services;
+namespace CCM.Models;
 
 public class VPBankTransactionLog
 {
@@ -61,23 +61,3 @@ public class VPBankTransactionLog
         return transactionLog;
     }
 }
-//
-// // Example usage
-// public class Program
-// {
-//     public static void Main()
-//     {
-//         string log =
-//             "TT MC CHO TID R1430747 NGAY GD 24/04/30 07.52.28 SO THE 524394...1742 CODE 886172 SO TIEN 32596000 VND (1) PHI 391152VND VAT 39115VND TG 1 RRN 412189474136";
-//
-//         VPBankTransactionLog vpBankTransaction = VPBankTransactionLog.Parse(log);
-//
-//         Console.WriteLine($"TID: {vpBankTransaction.TID}");
-//         Console.WriteLine($"CreatedDate: {vpBankTransaction.CreatedDate}");
-//         Console.WriteLine($"CardNumber: {vpBankTransaction.CardNumber}");
-//         Console.WriteLine($"TransactionCode: {vpBankTransaction.TransactionCode}");
-//         Console.WriteLine($"Amount: {vpBankTransaction.Amount}");
-//         Console.WriteLine($"Fee: {vpBankTransaction.Fee}");
-//         Console.WriteLine($"VAT: {vpBankTransaction.VAT}");
-//     }
-// }

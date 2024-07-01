@@ -1,70 +1,9 @@
+using CCM.Core;
 using CCM.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CCM.Repositories;
 
-public class CardRepository(CcmContext context)
+public class CardRepository(CcmContext context) : GenericRepository<Card>(context)
 {
-    public async Task<List<Card>> ListAllAsync()
-    {
-        return await context.Cards
-            .Include(card => card.Customer)
-            .Include(card => card.CardClass)
-            .Include(card => card.Transactions)
-            .ToListAsync();
-    }
-
-    public async Task<Card> GetByIdAsync(ulong id)
-    {
-        return await context.Cards
-            .Include(card => card.Customer)
-            .Include(card => card.CardClass)
-            .Include(card => card.Transactions)
-            .FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public async Task CreateAsync(Card card)
-    {
-        context.Cards.Add(card);
-        await context.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync(Card card)
-    {
-        context.Entry(card).State = EntityState.Modified;
-        await context.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(ulong id)
-    {
-        var card = await context.Cards.FindAsync(id);
-        context.Cards.Remove(card);
-        await context.SaveChangesAsync();
-    }
-
-    public async Task<int> CountAsync()
-    {
-        return await context.Cards.CountAsync();
-    }
-
-    public async Task<long> UpdateCardClassIds()
-    {
-        var cardClasses = await context.CardClasses.ToListAsync();
-        var changedCards = 0;
-        foreach (var card in context.Cards)
-        {
-            var cardNumberPrefix = card.Number.Substring(0, 6);
-
-            var matchingCardClass = cardClasses.FirstOrDefault(c => c.Bin == cardNumberPrefix);
-
-            if (matchingCardClass != null)
-            {
-                card.CardClassId = matchingCardClass.Id;
-                changedCards++;
-            }
-        }
-
-        await context.SaveChangesAsync();
-        return changedCards;
-    }
 }

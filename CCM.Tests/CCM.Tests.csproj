@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CCM\CCM.csproj" />
+        <ProjectReference Include="..\CCM\CCM.csproj"/>
     </ItemGroup>
 
 </Project>

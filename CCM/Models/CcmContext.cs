@@ -36,9 +36,9 @@ public partial class CcmContext : DbContext
             $"server={DbHost};database={DbName};uid={DbUser}",
             ServerVersion.Parse("10.11.6-mariadb"),
             options => options.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: System.TimeSpan.FromSeconds(30),
-                errorNumbersToAdd: null
+                5,
+                TimeSpan.FromSeconds(30),
+                null
             )
         );
     }
