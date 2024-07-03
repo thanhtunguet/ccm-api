@@ -29,12 +29,14 @@ public partial class CcmContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
-        var DbUser = Environment.GetEnvironmentVariable("DB_USER");
-        var DbName = Environment.GetEnvironmentVariable("DB_NAME");
+        var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+        var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
+        var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+        var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+        var dbName = Environment.GetEnvironmentVariable("DB_NAME");
         optionsBuilder.UseMySql(
-            $"server={DbHost};database={DbName};uid={DbUser}",
-            ServerVersion.Parse("10.11.6-mariadb"),
+            $"server={dbHost};port={dbPort};database={dbName};uid={dbUser};password={dbPassword}",
+            ServerVersion.Parse("8.0.37-mysql"),
             options => options.EnableRetryOnFailure(
                 5,
                 TimeSpan.FromSeconds(30),
