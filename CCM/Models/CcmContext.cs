@@ -34,9 +34,10 @@ public partial class CcmContext : DbContext
         var dbUser = Environment.GetEnvironmentVariable("DB_USER");
         var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
         var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+        var dbVersion = Environment.GetEnvironmentVariable("DB_VERSION");
         optionsBuilder.UseMySql(
             $"server={dbHost};port={dbPort};database={dbName};uid={dbUser};password={dbPassword}",
-            ServerVersion.Parse("8.0.37-mysql"),
+            ServerVersion.Parse(dbVersion ?? "8.0.37-mysql"),
             options => options.EnableRetryOnFailure(
                 5,
                 TimeSpan.FromSeconds(30),
