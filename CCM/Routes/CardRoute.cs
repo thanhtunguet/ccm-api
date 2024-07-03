@@ -9,4 +9,6 @@ public static class CardRoute
     public const string Update = "update/{id}";
     public const string Delete = "delete/{id}";
     public const string Count = "count";
+    public const string ListByType = "list-by-type";
+    public const string CountByType = "count-by-type";
 }

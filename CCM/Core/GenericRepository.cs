@@ -15,9 +15,9 @@ public interface IGenericRepository<TEntity> where TEntity : class
 public class GenericRepository<TEntity>(DbContext context) : IGenericRepository<TEntity>
     where TEntity : class
 {
-    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
-    private IQueryable<TEntity> IncludeRelatedEntities(IQueryable<TEntity> query)
+    protected IQueryable<TEntity> IncludeRelatedEntities(IQueryable<TEntity> query)
     {
         var navigationProperties = typeof(TEntity).GetProperties()
             .Where(p => p.PropertyType.IsGenericType &&
