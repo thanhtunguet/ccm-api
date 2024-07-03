@@ -15,39 +15,9 @@ public class CardRepository(CcmContext context) : GenericRepository<Card>(contex
         var query = _dbSet.AsQueryable();
         query = IncludeRelatedEntities(query);
 
-        if (filter.CardTypeId.HasValue)
-        {
-            var today = DateTime.Today.Day;
-            var tomorrow = DateTime.Today.AddDays(1).Day;
+        query = await FilterByCardType(query, filter);
 
-            IQueryable<CardClass> cardClassQuery = _cardClassDbSet.AsQueryable();
-
-            switch (filter.CardTypeId.Value)
-            {
-                case CardType.All:
-                    // No additional filtering needed, handled by pagination below
-                    break;
-                case CardType.StatementDate:
-                    cardClassQuery =
-                        cardClassQuery.Where(cc => cc.StatementDate == today || cc.StatementDate == tomorrow);
-                    var statementDateCardClassIds = await cardClassQuery.Select(cc => cc.Id).ToListAsync();
-                    query = query.Where(c =>
-                        c.CardClassId.HasValue && statementDateCardClassIds.Contains(c.CardClassId.Value));
-                    break;
-                case CardType.DueDate:
-                    cardClassQuery = cardClassQuery.Where(cc => cc.DueDate == today || cc.DueDate == tomorrow);
-                    var dueDateCardClassIds = await cardClassQuery.Select(cc => cc.Id).ToListAsync();
-                    query = query.Where(
-                        c => c.CardClassId.HasValue && dueDateCardClassIds.Contains(c.CardClassId.Value));
-                    break;
-            }
-        }
-
-        // Apply search filter
-        if (!string.IsNullOrEmpty(filter.Search))
-        {
-            // Apply search logic here, e.g., using reflection
-        }
+        query = SearchCard(query, filter);
 
         // Apply ordering
         if (!string.IsNullOrEmpty(filter.OrderBy))
@@ -70,13 +40,20 @@ public class CardRepository(CcmContext context) : GenericRepository<Card>(contex
     {
         var query = _dbSet.AsQueryable();
 
+        query = await FilterByCardType(query, filter);
+
+        query = SearchCard(query, filter);
+
+        return await query.CountAsync();
+    }
+
+    private async Task<IQueryable<Card>> FilterByCardType(IQueryable<Card> query, CardFilter filter)
+    {
+        var today = DateTime.Today.Day;
+        var tomorrow = DateTime.Today.AddDays(1).Day;
+        IQueryable<CardClass> cardClassQuery = _cardClassDbSet.AsQueryable();
         if (filter.CardTypeId.HasValue)
         {
-            var today = DateTime.Today.Day;
-            var tomorrow = DateTime.Today.AddDays(1).Day;
-
-            IQueryable<CardClass> cardClassQuery = _cardClassDbSet.AsQueryable();
-
             switch (filter.CardTypeId.Value)
             {
                 case CardType.All:
@@ -98,12 +75,16 @@ public class CardRepository(CcmContext context) : GenericRepository<Card>(contex
             }
         }
 
-        // Apply search filter
+        return query;
+    }
+
+    private IQueryable<Card> SearchCard(IQueryable<Card> query, CardFilter filter)
+    {
         if (!string.IsNullOrEmpty(filter.Search))
         {
-            // Apply search logic here
+            query = query.Where((card) => card.Number.StartsWith(filter.Search));
         }
 
-        return await query.CountAsync();
+        return query;
     }
 }
