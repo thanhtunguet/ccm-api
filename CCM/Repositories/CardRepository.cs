@@ -87,4 +87,30 @@ public class CardRepository(CcmContext context) : GenericRepository<Card>(contex
 
         return query;
     }
+
+    public async Task<IEnumerable<Card>> SyncBinAsync()
+    {
+        var cards = await _dbSet.ToListAsync();
+        var cardClasses = await _cardClassDbSet.ToListAsync();
+        var updatedCards = new List<Card>();
+
+        foreach (var card in cards)
+        {
+            if (card.Number.Length >= 6)
+            {
+                var bin = card.Number.Substring(0, 6);
+                var cardClass = cardClasses.FirstOrDefault(cc => cc.Bin == bin);
+
+                if (cardClass != null && card.CardClassId != cardClass.Id)
+                {
+                    card.CardClassId = cardClass.Id;
+                    card.CardClass = cardClass;
+                    updatedCards.Add(card);
+                }
+            }
+        }
+
+        await context.SaveChangesAsync();
+        return updatedCards;
+    }
 }

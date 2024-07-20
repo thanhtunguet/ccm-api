@@ -11,4 +11,5 @@ public static class CardRoute
     public const string Count = "count";
     public const string ListByType = "list-by-type";
     public const string CountByType = "count-by-type";
+    public const string SyncBin = "sync-bin";
 }

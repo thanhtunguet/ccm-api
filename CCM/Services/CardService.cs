@@ -16,4 +16,9 @@ public class CardService(CardRepository repository) : GenericService<Card>(repos
     {
         return await repository.CountAllAsync(filter);
     }
+
+    public async Task<IEnumerable<Card>> SyncBinAsync()
+    {
+        return await repository.SyncBinAsync();
+    }
 }

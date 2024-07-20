@@ -24,4 +24,11 @@ public class CardController(CardService service) : GenericController<Card>(servi
         var count = await service.CountAllAsync(filter);
         return Ok(count);
     }
+
+    [HttpPost(CardRoute.SyncBin)]
+    public async Task<IActionResult> SyncBinAsync()
+    {
+        var updatedCards = await service.SyncBinAsync();
+        return Ok(updatedCards);
+    }
 }
