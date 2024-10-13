@@ -2,9 +2,13 @@
 
 public class TransactionStatus
 {
-    public const int Pending = 1;
+    public static readonly TransactionStatus Pending = new TransactionStatus(
+        1, "PENDING", "Chưa cập nhật", ""
+    );
 
-    public const int Done = 2;
+    public static readonly TransactionStatus Done = new TransactionStatus(
+        2, "DONE", "Đã xuất", ""
+    );
 
     public ulong Id { get; set; }
 
@@ -15,4 +19,17 @@ public class TransactionStatus
     public string? Color { get; set; }
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+    TransactionStatus(
+        ulong id,
+        string code,
+        string name,
+        string? color
+    )
+    {
+        Id = id;
+        Code = code;
+        Name = name;
+        Color = color;
+    }
 }

@@ -10,14 +10,15 @@ public class Transaction
 
     public ulong CardId { get; set; }
 
-    /// <summary>
-    ///     (TID)
-    /// </summary>
     public string Code { get; set; } = null!;
 
     public double? Amount { get; set; }
 
     public double? Fee { get; set; }
+
+    public double? PosFee { get; set; }
+
+    public double? Profit { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
